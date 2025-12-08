@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap'); 
+
+@import "tailwindcss";
+
+
+* {
+  scroll-behavior: smooth;
+}
+
+
+/* USS color: --prime-color: #47e3ff; */
+:root {
+  --background: #000510;
+  --prime-color: #2AD4E8;
+  --prime-light: #fb9e3a8a;
+  --white-color: #fff;
+  --Unbounded: 'Unbounded', sans-serif;
+}
+
+.Unbounded {
+  font-family: var(--Unbounded) !important;
+}
+
+
+body {
+  background: var(--background);
+  color: var(--white-color);
+  overflow-x:hidden;
+}
+
+.nav-links{
+  position: relative;
+}
+
+.nav-links::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--prime-color);
+  transition: 0.4s;
+}
+
+.nav-links::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--prime-color);
+  transition: 0.4s;
+}
+
+.nav-links:hover::after,
+.nav-links:hover::before{
+  width: 100%;
+
+}
