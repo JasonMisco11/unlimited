@@ -1,148 +1,140 @@
 "use client";
-import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from "react";
-import { Menu,
-    X
- } from 'lucide-react';
 
- type NavLink = {
-    label: string;
-    href: string;
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from "react";
+import { Menu, X } from 'lucide-react';
+
+type NavLink = {
+  label: string;
+  href: string;
 }
 
-const navLinks : NavLink[] = [
-    { label: "Why USS", href: "#why-uss" },
-    { label: "Benefits", href: "#benefits" },
-    { label: "Services", href: "#services" },
-    { label: "Features", href: "#features" },
-    { label: "FAQ", href: "#faq" },
+const navLinks: NavLink[] = [
+  { label: "Why USS", href: "#why-uss" },
+  { label: "Benefits", href: "#benefits" },
+  { label: "Services", href: "#services" },
+  { label: "Features", href: "#features" },
+  { label: "FAQ", href: "#faq" },
 ];
 
-
-
 export default function Nav() {
-    const [isOpen, setIsOpen] = useState(false);
-    
-    const navContainerRef = useRef<HTMLElement>(null);
-    
-    const menuRef = useRef<HTMLDivElement>(null); 
-    const [menuHeight, setMenuHeight] = useState('0px'); 
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-    useEffect(() => {
-        if (menuRef.current){
-            setMenuHeight(isOpen ? `${menuRef.current.scrollHeight}px` : '0px');
-        }
-    }, [isOpen]);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (isOpen && navContainerRef.current && !navContainerRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [isOpen]);
-
-    const handleScroll = (id: string) => {
-        // Close menu when a link is clicked (UX best practice)
-        setIsOpen(false);
-
-        const element = document.querySelector(id);
-        if (element) {
-            const yOffset = -80; 
-            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-        }
+  // OPTIMIZATION: Detect scroll to add background contrast if needed
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
     };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScrollToSection = (id: string) => {
+    setIsOpen(false);
+    const element = document.querySelector(id);
+    if (element) {
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <nav 
-        ref={navContainerRef}
-        className="w-full shadow-md fixed top-0 left-0 z-50 bg-[#0000003f] backdrop-blur-lg"
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled 
+          ? "bg-white/80 dark:bg-black/80 backdrop-blur-md shadow-md py-4" 
+          : "bg-transparent py-6"
+      }`}
     >
-      <div className="px-[8%] lg:px-[16%] py-8 flex items-center justify-between">
-        <motion.div
-        initial={{ y: -100, opacity: 0}}
-        animate={{ y:0, opacity: 1 }}
-        transition={{ duration: 0.4}}
-        className="flex shrink-0" >
-            <a href="#" className="text-2xl font-bold Unbounded">
-                <span className="text-gray-400">Unlimited</span>
-                <span className="text-(--prime-color)">Solutions</span>
-            </a>
-        </motion.div>
-
-        <motion.div 
-        initial={{ x: 100, opacity: 0}}
-        animate={{ x:0, opacity: 1 }}
-        transition={{ duration: 0.4}}
-        className="hidden md:flex space-x-8">
-            {navLinks.map((link) =>(
-                <button
-                    key={link.href}
-                    onClick={() => handleScroll(link.href)}
-                    className="nav-links text-white hover:text-(--prime-color) p-2 rounded 2xl transistion font-medium cursor-pointer"
-                    >
-                        {link.label}
-                </button>
-            ))}
-        </motion.div>
+      <div className="px-[8%] lg:px-[16%] flex items-center justify-between">
         
-        <motion.div 
-        initial={{ y: 100, opacity: 0}}
-        animate={{ y:0, opacity: 1 }}
-        transition={{ duration: 0.4}}
-        className="hidden md:block">
-            <a href="https://calendly.com/" target="blank">
-                <button 
-                onClick={() => handleScroll(`#book`)}
-                className="pb-2 border border-white text-white hover:border-transparent hover:text-white hover:bg-(--prime-color) font-semibold px-5 py-2 rounded-md transition-all duration-300 cursor-pointer"
-                >
-                    Book Now
-                </button>
-            </a>
+        {/* LOGO */}
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className="flex shrink-0"
+        >
+          <a href="/" className="text-2xl font-bold font-sans">
+            <span className="text-neutral-400">Unlimited</span>
+            {/* FIX: Correct Tailwind arbitrary variable syntax */}
+            <span className="text-[var(--prime-color)]">Solutions</span>
+          </a>
         </motion.div>
 
-        <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white text-2xl focus:outline-none transition-transform duration-300"
-            aria-label="Toggle menu"
+        {/* DESKTOP NAV */}
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="hidden md:flex space-x-8 items-center"
         >
-            {isOpen ? <X /> : <Menu />}
+          {navLinks.map((link) => (
+            <button
+              key={link.href}
+              onClick={() => handleScrollToSection(link.href)}
+              // FIX: Added dark:text-white and text-neutral-800 for visibility on white backgrounds
+              className="text-sm font-medium transition-colors cursor-pointer text-neutral-800 dark:text-white hover:text-[var(--prime-color)]"
+            >
+              {link.label}
+            </button>
+          ))}
+          
+          {/* CTA BUTTON */}
+          <a 
+            href="https://calendly.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            // FIX: Removed nested <button> tag inside <a>
+            className="px-5 py-2 rounded-md font-semibold border border-neutral-800 dark:border-white text-neutral-800 dark:text-white hover:bg-[var(--prime-color)] hover:border-transparent hover:text-white transition-all duration-300"
+          >
+            Book Now
+          </a>
+        </motion.div>
+
+        {/* MOBILE TOGGLE */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-neutral-800 dark:text-white focus:outline-none"
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
-    </div>
+      </div>
 
-    <div 
-        ref={menuRef}
-        style={{ maxHeight: menuHeight }}
-        className="md:hidden overflow-hidden transition-all duration-500 ease-in-out"
-    >
-        <nav className="flex px-[8%] py-5 flex-col space-y-4 bg-[#0000003f] backdrop-blur-lg border-t border-white/10">
-            {navLinks.map((link) => (
-                 <button
-                    key={link.href}
-                    onClick={() => handleScroll(link.href)}
-                    className="text-left nav-links text-white hover:text-[var(--prime-color)] p-2 rounded 2xl transistion font-medium cursor-pointer"
-                    >
-                        {link.label}
-                </button>
-            ))}
-            <div className="mt-2"></div>
-            <a href="https://calendly.com/" target="blank">
-             <button 
-                onClick={() => handleScroll(`#book`)}
-                className="w-full pb-2 border border-white text-white hover:border-transparent hover:text-white hover:bg-[var(--prime-color)] font-semibold px-5 py-2 rounded-md transition-all duration-300 cursor-pointer"
+      {/* MOBILE MENU (With Framer Motion) */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="md:hidden overflow-hidden bg-white dark:bg-black border-t dark:border-white/10"
+          >
+            <div className="flex flex-col px-[8%] py-6 space-y-4">
+              {navLinks.map((link) => (
+                <button
+                  key={link.href}
+                  onClick={() => handleScrollToSection(link.href)}
+                  className="text-left text-lg font-medium text-neutral-800 dark:text-white hover:text-[var(--prime-color)]"
                 >
-                    Book Now
+                  {link.label}
                 </button>
-                </a>
-        </nav>
-    </div>
-
+              ))}
+              <a
+                href="https://calendly.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full text-center py-3 rounded-md font-semibold bg-[var(--prime-color)] text-white hover:opacity-90 transition-opacity"
+              >
+                Book Now
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
-  )
+  );
 }
