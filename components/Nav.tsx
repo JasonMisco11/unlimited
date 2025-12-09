@@ -10,8 +10,8 @@ type NavLink = {
 }
 
 const navLinks: NavLink[] = [
-  { label: "Why USS", href: "#why-uss" },
-  { label: "Benefits", href: "#benefits" },
+  { label: "Why US", href: "#why-us" },
+  { label: "Find Us", href: "#find-us" },
   { label: "Services", href: "#services" },
   { label: "Features", href: "#features" },
   { label: "FAQ", href: "#faq" },
