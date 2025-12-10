@@ -48,7 +48,7 @@ export default function Hero() {
         transition={{ duration: 0.5 }}
         className="absolute top-24 z-30 w-full flex justify-center px-4"
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-sm">
+        <div className="hidden md:inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-sm">
           <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
           <span className="text-xs font-medium text-neutral-600 dark:text-neutral-300">
             Accepting Orders for Next Shipment

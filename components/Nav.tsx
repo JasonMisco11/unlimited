@@ -59,8 +59,7 @@ export default function Nav() {
         >
           <a href="#" className="text-2xl font-bold font-sans">
             <span className="text-neutral-400">Unlimited</span>
-            {/* FIX: Correct Tailwind arbitrary variable syntax */}
-            <span className="text-(--prime-color)]">Solutions</span>
+            <span className="text-(--prime-color)">Solutions</span>
           </a>
         </motion.div>
 
