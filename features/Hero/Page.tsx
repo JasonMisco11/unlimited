@@ -30,7 +30,7 @@ export default function Hero() {
       
       {/* 1. THE MAP CONTAINER (Zoomed for Mobile) */}
       <div className="absolute z-0 pointer-events-none
-                      w-full aspect-[2/1] 
+                      w-full aspect-2/1 
                       left-0 top-1/2 -translate-y-1/2
                       scale-[1.6] md:scale-100 origin-center">
         <WorldMap dots={mapDots} />
@@ -38,7 +38,7 @@ export default function Hero() {
 
       {/* 2. VIGNETTE */}
       <div className="absolute inset-0 z-10 pointer-events-none bg-white dark:bg-black 
-                      [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black_85%)]" />
+                      mask-[radial-gradient(ellipse_at_center,transparent_20%,black_85%)]" />
 
       {/* --- FLOATING STATUS BADGE (Fills Top Whitespace) --- */}
       {/* Positioned absolutely at top-24 (approx 96px) to sit just below Navbar */}
@@ -63,7 +63,7 @@ export default function Hero() {
         {/* Headline */}
         <h1 className="font-bold text-4xl md:text-7xl dark:text-white text-black leading-tight tracking-tight">
           Sourcing Globally, <br className="hidden md:block" />
-          <span className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-blue-600 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
             Delivering Locally
           </span>
         </h1>

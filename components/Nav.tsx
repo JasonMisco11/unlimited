@@ -57,10 +57,10 @@ export default function Nav() {
           transition={{ duration: 0.4 }}
           className="flex shrink-0"
         >
-          <a href="/" className="text-2xl font-bold font-sans">
+          <a href="#" className="text-2xl font-bold font-sans">
             <span className="text-neutral-400">Unlimited</span>
             {/* FIX: Correct Tailwind arbitrary variable syntax */}
-            <span className="text-[var(--prime-color)]">Solutions</span>
+            <span className="text-(--prime-color)]">Solutions</span>
           </a>
         </motion.div>
 
@@ -76,7 +76,7 @@ export default function Nav() {
               key={link.href}
               onClick={() => handleScrollToSection(link.href)}
               // FIX: Added dark:text-white and text-neutral-800 for visibility on white backgrounds
-              className="text-sm font-medium transition-colors cursor-pointer text-neutral-800 dark:text-white hover:text-[var(--prime-color)]"
+              className="text-sm font-medium transition-colors cursor-pointer text-neutral-800 dark:text-white hover:text-(--prime-color)"
             >
               {link.label}
             </button>
@@ -88,7 +88,7 @@ export default function Nav() {
             target="_blank" 
             rel="noopener noreferrer"
             // FIX: Removed nested <button> tag inside <a>
-            className="px-5 py-2 rounded-md font-semibold border border-neutral-800 dark:border-white text-neutral-800 dark:text-white hover:bg-[var(--prime-color)] hover:border-transparent hover:text-white transition-all duration-300"
+            className="px-5 py-2 rounded-md font-semibold border border-neutral-800 dark:border-white text-neutral-800 dark:text-white hover:bg-(--prime-color) hover:border-transparent hover:text-white transition-all duration-300"
           >
             Book Now
           </a>
@@ -118,7 +118,7 @@ export default function Nav() {
                 <button
                   key={link.href}
                   onClick={() => handleScrollToSection(link.href)}
-                  className="text-left text-lg font-medium text-neutral-800 dark:text-white hover:text-[var(--prime-color)]"
+                  className="text-left text-lg font-medium text-neutral-800 dark:text-white hover:text-(--prime-color)"
                 >
                   {link.label}
                 </button>
@@ -127,7 +127,7 @@ export default function Nav() {
                 href="https://calendly.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full text-center py-3 rounded-md font-semibold bg-[var(--prime-color)] text-white hover:opacity-90 transition-opacity"
+                className="w-full text-center py-3 rounded-md font-semibold bg-(--prime-color) text-white hover:opacity-90 transition-opacity"
               >
                 Book Now
               </a>
