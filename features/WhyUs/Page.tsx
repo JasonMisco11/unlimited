@@ -9,7 +9,7 @@ import {
 
 export default function WhyUs() {
   return (
-    <section id="why-uss" className="py-24 bg-neutral-50 dark:bg-neutral-950 relative">
+    <section id="why-us" className="py-24 bg-neutral-50 dark:bg-neutral-950 relative">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Header */}

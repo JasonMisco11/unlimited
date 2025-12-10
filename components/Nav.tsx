@@ -10,18 +10,16 @@ type NavLink = {
 }
 
 const navLinks: NavLink[] = [
-  { label: "Why US", href: "#why-us" },
-  { label: "Find Us", href: "#find-us" },
-  { label: "Services", href: "#services" },
-  { label: "Features", href: "#features" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Why Us", href: "#why-us" },         
+  { label: "How it Works", href: "#how-it-works" }, 
+  { label: "Location", href: "#contact" },       
+  { label: "FAQ", href: "#faq" },                
 ];
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // OPTIMIZATION: Detect scroll to add background contrast if needed
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -30,14 +28,20 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // --- THE FIX IS HERE ---
   const handleScrollToSection = (id: string) => {
-    setIsOpen(false);
-    const element = document.querySelector(id);
-    if (element) {
-      const yOffset = -80;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+    // 1. Close menu first
+    setIsOpen(false); 
+
+    // 2. Wait 300ms for the animation to finish, THEN scroll
+    setTimeout(() => {
+      const element = document.querySelector(id);
+      if (element) {
+        const yOffset = -80; 
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 300);
   };
 
   return (
@@ -59,7 +63,8 @@ export default function Nav() {
         >
           <a href="#" className="text-2xl font-bold font-sans">
             <span className="text-neutral-400">Unlimited</span>
-            <span className="text-(--prime-color)">Solutions</span>
+            {/* CSS FIX applied here */}
+            <span className="text-[var(--prime-color)]">Solutions</span>
           </a>
         </motion.div>
 
@@ -74,20 +79,17 @@ export default function Nav() {
             <button
               key={link.href}
               onClick={() => handleScrollToSection(link.href)}
-              // FIX: Added dark:text-white and text-neutral-800 for visibility on white backgrounds
-              className="text-sm font-medium transition-colors cursor-pointer text-neutral-800 dark:text-white hover:text-(--prime-color)"
+              className="text-sm font-medium transition-colors cursor-pointer text-neutral-800 dark:text-white hover:text-[var(--prime-color)]"
             >
               {link.label}
             </button>
           ))}
           
-          {/* CTA BUTTON */}
           <a 
             href="https://calendly.com/" 
             target="_blank" 
             rel="noopener noreferrer"
-            // FIX: Removed nested <button> tag inside <a>
-            className="px-5 py-2 rounded-md font-semibold border border-neutral-800 dark:border-white text-neutral-800 dark:text-white hover:bg-(--prime-color) hover:border-transparent hover:text-white transition-all duration-300"
+            className="px-5 py-2 rounded-md font-semibold border border-neutral-800 dark:border-white text-neutral-800 dark:text-white hover:bg-[var(--prime-color)] hover:border-transparent hover:text-white transition-all duration-300"
           >
             Book Now
           </a>
@@ -103,7 +105,7 @@ export default function Nav() {
         </button>
       </div>
 
-      {/* MOBILE MENU (With Framer Motion) */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -117,7 +119,8 @@ export default function Nav() {
                 <button
                   key={link.href}
                   onClick={() => handleScrollToSection(link.href)}
-                  className="text-left text-lg font-medium text-neutral-800 dark:text-white hover:text-(--prime-color)"
+                  // CSS FIX applied here as well
+                  className="text-left text-lg font-medium text-neutral-800 dark:text-white hover:text-[var(--prime-color)]"
                 >
                   {link.label}
                 </button>
@@ -126,7 +129,7 @@ export default function Nav() {
                 href="https://calendly.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full text-center py-3 rounded-md font-semibold bg-(--prime-color) text-white hover:opacity-90 transition-opacity"
+                className="w-full block text-center py-3 rounded-md font-semibold bg-[var(--prime-color)] text-white hover:opacity-90 transition-opacity"
               >
                 Book Now
               </a>
